@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  mongodb:
+    image: sangkuriang/mongodb
+    container_name: sangkuriang-mongo
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+    ports:
+        - 27017:27017
+    deploy:
+      replicas: 2
+      placement:
+        max_replicas_per_node: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      endpoint_mode: dnsrr
+
+volumes:
+  mongodb:
+  mongodb_config:
